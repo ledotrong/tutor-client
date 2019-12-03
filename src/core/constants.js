@@ -12,4 +12,6 @@ export const types = {
   export const id = {
     GOOGLE_CLIENT_ID:
       '163647069051-hk900htr285s2icr1r2sjf1ae1qq9tak.apps.googleusercontent.com',
-    FACEBOOK_APP_ID: '2294874014
+    FACEBOOK_APP_ID: '2294874014137016'
+  };
+  
