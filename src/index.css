@@ -1,0 +1,136 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.steps-content {
+  margin-top: 20px;
+  border: 1px dashed #e9e9e9;
+  border-radius: 6px;
+  background-color: #fafafa;
+  min-height: 200px;
+  text-align: center;
+}
+
+.steps-action {
+  margin-top: 24px;
+}
+
+.login-form-forgot {
+  float: right;
+}
+.login-form-button {
+  width: 100%;
+}
+.totoal {
+  margin-left: 38%;
+}
+
+.container-login100 {
+  width: 100%;
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  z-index: 1;
+}
+
+.container-login100::before {
+  content: '';
+  display: block;
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.65);
+}
+.wrap-login100 {
+  width: 300px;
+  border-radius: 10px;
+  overflow: hidden;
+  padding-top: 30px;
+  background: transparent;
+  padding-bottom: 50px;
+}
+.login100-form-title {
+  font-family: Poppins;
+  font-size: 38px;
+  color: #fff;
+  line-height: 1.2;
+  text-align: center;
+  text-transform: uppercase;
+  padding-bottom: 41px;
+  display: block;
+}
+.login100-form {
+  max-width: 300px;
+}
+.wrap-register100 {
+  width: 630px;
+  border-radius: 10px;
+  overflow: hidden;
+  padding-top: 30px;
+  background: transparent;
+  padding-bottom: 50px;
+  color: #fff;
+}
+.register100-form {
+  width: 100%;
+  font-weight: bold;
+  padding: 30px 40px;
+  background: #fff;
+  border-radius: 10px;
+}
+.btnfb {
+  height: 45px;
+  display: block;
+  background-color: #3b5998;
+  color: white;
+  font-size: 15px;
+  border: #3b5998;
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
+}
+.btngg {
+  width: 100%;
+}
+.btngg div {
+  margin-left: 10%;
+}
+.btngg span {
+  width: 100%;
+  text-align: center;
+  font-size: 15px !important;
+}
+.btnfb i {
+  font-size: 30px;
+  float: left;
+  margin-left: 10%;
+}
+.btnfb:hover {
+  background-color: #2f477a;
+  cursor: pointer;
+}
