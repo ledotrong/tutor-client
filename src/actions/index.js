@@ -31,8 +31,9 @@ export const login = user => ({
         .callApiLoginGg(data)
         .then(res => {
           localStorage.setItem('usertoken', res.data.token);
-          dispatch(login(res.data));
           if (res.data.activated === false) dispatch(setLogintype("google"));
+          dispatch(login(res.data));
+          
         })
         .catch(err => {
           dispatch(loginErr(err.response.data));
@@ -49,7 +50,9 @@ export const login = user => ({
         .then(res => {
           console.log(res.data);
           localStorage.setItem('usertoken', res.data.token);
+
           dispatch(login(res.data.user));
+          console.log("token",localStorage.getItem('usertoken'));
         })
         .catch(err => {
           dispatch(loginErr(err.response.data.message));

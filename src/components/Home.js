@@ -12,8 +12,8 @@ export default class Home extends React.Component{
         return kq;
     }
     render (){
-        const {role, email, address, name, getUser, logout} = this.props;
-        if (localStorage.getItem("usertoken") === null) getUser();
+        const {role, email, address, name, getUser, logout, loginErr} = this.props;
+        if (localStorage.getItem("usertoken") !== null && email === null)  getUser();
        if (email === null) return (
             <div>
                <Link to='/login'> <Button type="primary">Sign in</Button></Link>
