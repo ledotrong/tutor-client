@@ -7,7 +7,7 @@ export const types = {
     SET_ID: 'SET_ID'
   };
   
-  export const api_url = 'http://localhost:3000';
+  export const api_url = 'https://tutor-client-api.herokuapp.com';
   
   export const id = {
     GOOGLE_CLIENT_ID:
