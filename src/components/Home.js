@@ -25,8 +25,9 @@ export default class Home extends React.Component{
                 <p>Name: {name}</p>
                 <p>Email: {email}</p>
                 <p>Role: {role}</p>
-                <p>Address: {address}</p>
+                <p>Address: {address.address}</p>
                 <p>Skills: <ul>{this.renderSkills()}</ul></p>
+                <Link to='/profile' ><Button type="primary">Change profile</Button></Link>
                 <Button type="primary" onClick={logout}>Log out</Button>
             </div>
         )

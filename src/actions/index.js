@@ -56,7 +56,8 @@ export const login = user => ({
           console.log("token",localStorage.getItem('usertoken'));
         })
         .catch(err => {
-          dispatch(loginErr(err.response.data.message));
+          console.log(err);
+         if (err.response.data.message) dispatch(loginErr(err.response.data.message));
         });
     };
   };
@@ -66,9 +67,9 @@ export const login = user => ({
       return callApi
         .callApiGetInfo()
         .then(res => {
-          dispatch(
-            login(res.data)
-          );
+          if (res.data.activated === true)
+            dispatch(login(res.data));
+          else localStorage.removeItem('usertoken');
         })
         .catch(err => {
           console.log(err);
@@ -96,3 +97,11 @@ export const login = user => ({
     type: types.SET_ID,
     id
   }); 
+  export const updatePicture = picture => ({
+    type: types.UPDATE_PICTURE,
+    picture
+  })
+  export const updateInfo = (user) => ({
+    type: types.UPDATE_INFO,
+    user
+  })

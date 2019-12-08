@@ -8,8 +8,6 @@ import * as serviceWorker from './serviceWorker';
 import './index.css';
 
 const redux = require('redux');
-console.log( process.env.PATH );
-console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
 const composeEnhancer =
   window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || redux.compose;
 const store = redux.createStore(

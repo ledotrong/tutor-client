@@ -84,15 +84,31 @@ export function callApiGetGoogleId(id) {
 export function callApiUpdateInfo(body) {
   return axios({
     method: 'POST',
-    data: { ...body, token: localStorage.getItem('usertoken') },
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+    },
+    data: body,
+    mode: 'cors',
     url: `${api_url}/user/updateinfo`
   });
 }
 export function callApiVerifyAccount(body){
-  console.log(body);
   return axios({
     method: 'POST',
     data: body,
     url: `${api_url}/user/activatedaccount`
+  })
+}
+export function callApiUpdateAvatar(body){
+  return axios({
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+    },
+    data: body,
+    mode: 'cors',
+    url: `${api_url}/user/updateavatar`
   })
 }

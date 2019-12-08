@@ -4,7 +4,9 @@ export const types = {
     LOGOUT: 'LOGOUT',
     SET_CURRENT: 'SET_CURRENT',
     SET_LOGINTYPE: 'SET_LOGINTYPE',
-    SET_ID: 'SET_ID'
+    SET_ID: 'SET_ID',
+    UPDATE_PICTURE: 'UPDATE_PICTURE',
+    UPDATE_INFO: 'UPDATE_INFO'
   };
   
   export const api_url = 'https://tutorclientapi.herokuapp.com';

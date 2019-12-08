@@ -11,6 +11,7 @@ import Home from './containers/Home';
 import Login from './containers/Login';
 import Register from './containers/Register';
 import VerifyAccount from './containers/VerifyAccount';
+import Profile from './containers/Profile/Profile';
 import 'antd/dist/antd.css';
 import './App.css';
 import RegisterFB_GG from './containers/RegisterFB_GG';
@@ -22,6 +23,7 @@ const Root = ({ store }) => (
           <Route exact path="/" component={Home} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
+          <Route path="/profile" component={Profile}/>
           <Route path="/verifyaccount/:id" component={VerifyAccount} />
           <Route path="/registerfbgg" component={RegisterFB_GG}/>
         </Switch>

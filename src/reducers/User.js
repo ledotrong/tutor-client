@@ -2,16 +2,22 @@ import { types } from '../core/constants';
 
 const initialState = {
   name: null,
-  usertoken: null,
-  loginErr: null,
   email: null,
   picture: null,
   skills: [],
   role: null,
-  address: null,
+  address: {
+    address: null,
+    ward: null,
+    district: null,
+    province: null
+  },
+  introduction: null,
   date: null,
   current: 0,
-  logintype: null, id: null
+  logintype: null, id: null,
+  usertoken: null,
+  loginErr: null,
 };
 export default function user(state = initialState, action) {
   switch (action.type) {
@@ -24,10 +30,15 @@ export default function user(state = initialState, action) {
         picture: action.user.picture,
         skills: action.user.skills,
         role: action.user.role,
-        address: action.user.address, 
+        address: {
+          address: action.user.address.address,
+          ward:  action.user.address.ward,
+          district: action.user.address.district,
+          province: action.user.address.province},
         current: action.user.current,
         loginErr: null,
-        id: action.user._id
+        id: action.user._id,
+        introduction: action.user.introduction
       };
     }
     case types.LOGIN_ERR: {
@@ -42,19 +53,25 @@ export default function user(state = initialState, action) {
   picture: null,
   skills: [],
   role: null,
-  address: null,
+  address: {
+    address: null,
+    ward:  null,
+    district: null,
+    province: null},
   date: null,
   current: 0,
   logintype: null,
-  id: null
+  id: null,
+  introduction: null
       };
     }
     case types.UPDATE_INFO: {
       return {
         ...state,
-        name: action.name,
-        skills: action.skills,
-        address: action.address,
+        name: action.user.name,
+        skills: action.user.skills,
+        address: action.user.address,
+        introduction: action.user.introduction,
         current: 4
       };
     }
@@ -65,11 +82,13 @@ export default function user(state = initialState, action) {
         return {...state, current: action.number};
     }
     case types.SET_LOGINTYPE: {
-      console.log("action",action);
       return {...state, logintype: action.logintype};
     }
     case types.SET_ID: {
       return {...state, id: action.id};
+    }
+    case types.UPDATE_PICTURE: {
+      return {...state, picture: action.picture};
     }
     default:
       return state;

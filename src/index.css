@@ -134,3 +134,12 @@ code {
   background-color: #2f477a;
   cursor: pointer;
 }
+
+.update-profile-section{
+  background-color: white;
+  padding: 2% 4%;
+  margin: 20px 18%;
+  border-style: outset;
+  border: 1px solid #464343;
+  border-radius: 10px;
+}
