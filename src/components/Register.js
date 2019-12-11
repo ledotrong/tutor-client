@@ -168,6 +168,7 @@ class Register extends React.Component {
     this.setState({ provinces: tempProvinces});
   }
   componentDidMount(){
+    const {skills} = this.props;
     var temp = [];
     for (let i = 0; i < skills.length; i++) {
       temp.push(<Option key={i}>{skills[i]}</Option>);
