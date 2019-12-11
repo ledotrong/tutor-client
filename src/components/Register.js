@@ -158,16 +158,21 @@ class Register extends React.Component {
   }
   componentWillMount= ()=>{
     const {skills, getSkills} = this.props;
-    var temp = [];
+    
     if (skills.lenght === 0) getSkills();
-    for (let i = 0; i < skills.length; i++) {
-      temp.push(<Option key={i}>{skills[i]}</Option>);
-    }
+    
     var tempProvinces = [];
     for (let i =0 ; i< Object.keys(data).length; i++){
       tempProvinces.push(<Option key={i}>{data[`${i+1}`].name}</Option>);
     }
-    this.setState({children: temp, provinces: tempProvinces});
+    this.setState({ provinces: tempProvinces});
+  }
+  componentDidMount(){
+    var temp = [];
+    for (let i = 0; i < skills.length; i++) {
+      temp.push(<Option key={i}>{skills[i]}</Option>);
+    }
+    this.setState({children: temp});
   }
   render() {
     const { getFieldDecorator } = this.props.form;
