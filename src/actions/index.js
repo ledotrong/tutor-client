@@ -16,7 +16,7 @@ export const login = user => ({
         .then(res => {
           localStorage.setItem('usertoken', res.data.token);
           console.log("res.data", res.data);
-          if (res.data.activated === false) dispatch(setLogintype("facebook"));
+          if (res.data.status === "inactive") dispatch(setLogintype("facebook"));
           dispatch(login(res.data));
           
         })
@@ -32,7 +32,7 @@ export const login = user => ({
         .callApiLoginGg(data)
         .then(res => {
           localStorage.setItem('usertoken', res.data.token);
-          if (res.data.activated === false) dispatch(setLogintype("google"));
+          if (res.data.status === "inactive") dispatch(setLogintype("google"));
           dispatch(login(res.data));
           
         })
@@ -67,7 +67,7 @@ export const login = user => ({
       return callApi
         .callApiGetInfo()
         .then(res => {
-          if (res.data.activated === true)
+          if (res.data.status === "active")
             dispatch(login(res.data));
           else localStorage.removeItem('usertoken');
         })
@@ -105,3 +105,19 @@ export const login = user => ({
     type: types.UPDATE_INFO,
     user
   })
+  export const setSkills = (skills) => ({
+    type: types.SET_SKILLS,
+    skills
+  })
+  export const getSkills = () => {
+    return dispatch => {
+      return callApi
+        .callApiGetSkills()
+        .then(res => {
+          dispatch(setSkills(res.data.skills));
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    };
+  }

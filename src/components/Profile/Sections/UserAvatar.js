@@ -2,6 +2,11 @@ import React from "react";
 import {Avatar, message, Upload, Button, Icon} from "antd";
 import * as callApi from '../../../utils/apiCaller';
 
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
 export default class UserAvatar extends React.Component {
     render(){
         const {picture, updatePicture} = this.props;
@@ -16,13 +21,15 @@ export default class UserAvatar extends React.Component {
                 console.log(info.file, info.fileList);
               }
               if (info.file.status === 'done') {
-                var url = window.URL.createObjectURL(info.file.originFileObj);
-                callApi.callApiUpdateAvatar({picture: url}).then(()=>{
-                  updatePicture(url);
-                  message.success(`Update avatar successfully!`);
-              }).catch(err => {
-                  message.error("Update avatar failed.");
-            });
+                getBase64(info.file.originFileObj, imageUrl => {
+                  callApi.callApiUpdateAvatar({picture: imageUrl}).then(()=>{
+                    updatePicture(imageUrl);
+                    message.success(`Update avatar successfully!`);
+                }).catch(err => {
+                    message.error("Update avatar failed.");
+              });
+                });
+               
               } else if (info.file.status === 'error') {
                 message.error("Update avatar failed.");
               }

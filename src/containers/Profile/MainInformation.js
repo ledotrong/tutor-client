@@ -7,12 +7,17 @@ const mapStateToProps = state => ({
   address: state.user.address,
   skills: state.user.skills,
   introduction: state.user.introduction,
-  email: state.user.email
+  email: state.user.email,
+  allskills: state.skills.skills,
+  wages: state.user.wages
 });
 const mapDispatchToProps = dispatch => {
   return {
     updateInfo: user => {
       dispatch(actions.updateInfo(user));
+    },
+    getSkills: () =>{
+      dispatch(actions.getSkills());
     }
   };
 };

@@ -1,9 +1,11 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { Form, Input, Button, Modal, Steps, Tag, Tooltip, Icon, Radio } from 'antd';
+import { Form, Input, Button, Modal, Steps, Select, Radio } from 'antd';
 import * as callApi from '../utils/apiCaller';
 import bg01 from '../image/bg01.jpg';
+import data from '../core/data';
 const { Step } = Steps;
+const { Option } = Select;
 const callback = function() {};
 const expiredCallback = function() {};
 const steps = [
@@ -24,9 +26,12 @@ class Register extends React.Component {
       confirmDirty: false,
       autoCompleteResult: [],
       tags: [],
-    inputVisible: false,
-    inputValue: '',
-    role: null
+    role: null,
+    districts: [],
+    provinces: [],
+    children: [],
+    province: null,
+    district: null
     };
   }
   registerRequest = e => {
@@ -51,12 +56,18 @@ class Register extends React.Component {
    addInfoRequest = e => {
        e.preventDefault();
        const {id} = this.props;
+       const {district, province, tags} = this.state;
        const user = {
         name: document.getElementById('name').value,
-        address: document.getElementById('address').value,
-        skills: this.state.tags,
+        address: {
+          address: document.getElementById('address').value,
+         district: district,
+         province: province
+      },
+        skills: tags,
         id: id
       };
+      if (user.name && user.address.address && user.address.district && user.address.province && user.skills.length){
         return callApi
           .callApiAddInfo(user)
           .then(() => {
@@ -66,6 +77,8 @@ class Register extends React.Component {
             console.log(err.response);
             document.getElementById('msg').innerHTML = err.response.data;
           });
+        }
+        else document.getElementById('msg').innerHTML = "Please fill in all fields";
    }
   handleConfirmBlur = e => {
     const { value } = e.target;
@@ -121,39 +134,45 @@ class Register extends React.Component {
     console.log(tags);
     this.setState({ tags });
   };
-
-  showInput = () => {
-    this.setState({ inputVisible: true }, () => this.input.focus());
-  };
-
-  handleInputChange = e => {
-    this.setState({ inputValue: e.target.value });
-  };
-
-  handleInputConfirm = () => {
-    const { inputValue } = this.state;
-    let { tags } = this.state;
-    if (inputValue && tags.indexOf(inputValue) === -1) {
-      tags = [...tags, inputValue];
-    }
-    console.log(tags);
-    this.setState({
-      tags,
-      inputVisible: false,
-      inputValue: '',
-    });
-  };
   onChange = e => {
     console.log('radio checked', e.target.value);
     this.setState({
       role: e.target.value,
     });
   };
-  saveInputRef = input => (this.input = input);
+  handleChange = (value) =>{
+    const {tags} = this.state;
+    this.setState({tags: [...tags, value]});
+    console.log(`Selected: ${value}`);
+  }
+  handleChangeProvince = e => {
+    var temp =[];
+    for (let j = 0 ; j<Object.keys(data[`${parseInt(e,10)+1}`].districts).length; j++)
+    {
+      temp.push(<Option key={j}>{data[`${parseInt(e,10)+1}`].districts[`${Object.keys(data[`${parseInt(e,10)+1}`].districts)[j]}`]}</Option>);
+    }
+    this.setState({districts: temp, province: data[`${parseInt(e,10)+1}`].name});
+  }
+  handleChangeDistrict = value =>{
+    this.setState({district: value});
+  }
+  componentWillMount= ()=>{
+    const {skills, getSkills} = this.props;
+    var temp = [];
+    if (skills.lenght === 0) getSkills();
+    for (let i = 0; i < skills.length; i++) {
+      temp.push(<Option key={i}>{skills[i]}</Option>);
+    }
+    var tempProvinces = [];
+    for (let i =0 ; i< Object.keys(data).length; i++){
+      tempProvinces.push(<Option key={i}>{data[`${i+1}`].name}</Option>);
+    }
+    this.setState({children: temp, provinces: tempProvinces});
+  }
   render() {
     const { getFieldDecorator } = this.props.form;
     const { current} = this.props;
-    const { tags, inputVisible, inputValue } = this.state;
+    const {districts, provinces, children} = this.state;
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -260,46 +279,50 @@ class Register extends React.Component {
                   </Form.Item>
                   <Form.Item label="Address">
                     {getFieldDecorator('address', {
-                      rules: []
+                      rules: [
+                        { required: true, message: 'Please input your address!' }
+                      ]
                     })(<Input id="address" />)}
+                  </Form.Item>
+                  <Form.Item label="Province">
+                    {getFieldDecorator('province', {
+                      rules: [
+                        { required: true, message: 'Please input your province!' }
+                      ]
+                    })(<Select
+                      placeholder="Please select your province"
+                      onChange={this.handleChangeProvince}
+                      style={{ width: '100%' }}
+                      id="province"
+                    >
+                      {provinces}
+                    </Select>)}
+                  </Form.Item>
+                  <Form.Item label="District">
+                    {getFieldDecorator('district', {
+                      rules: [{ required: true, message: 'Please input your district!' }]
+                    })(<Select
+                    labelInValue
+                      placeholder="Please select your district"
+                      style={{ width: '100%' }}
+                      id="district"
+                    >
+                      {districts}
+                    </Select>)}
                   </Form.Item>
                   <Form.Item label="Skills">
                     {getFieldDecorator('skills', {
                       rules: []
-                    })(<div>
-                        {tags.map((tag, index) => {
-                          const isLongTag = tag.length > 20;
-                          const tagElem = (
-                            <Tag key={tag} closable={index !== 0} onClose={() => this.handleClose(tag)}>
-                              {isLongTag ? `${tag.slice(0, 20)}...` : tag}
-                            </Tag>
-                          );
-                          return isLongTag ? (
-                            <Tooltip title={tag} key={tag}>
-                              {tagElem}
-                            </Tooltip>
-                          ) : (
-                            tagElem
-                          );
-                        })}
-                        {inputVisible && (
-                          <Input
-                            ref={this.saveInputRef}
-                            type="text"
-                            size="small"
-                            style={{ width: 78 }}
-                            value={inputValue}
-                            onChange={this.handleInputChange}
-                            onBlur={this.handleInputConfirm}
-                            onPressEnter={this.handleInputConfirm}
-                          />
-                        )}
-                        {!inputVisible && (
-                          <Tag onClick={this.showInput} style={{ background: '#fff', borderStyle: 'dashed' }}>
-                            <Icon type="plus" /> New Tag
-                          </Tag>
-                        )}
-                      </div>)}
+                    })(<Select
+                      mode="multiple"
+                      size="default"
+                      placeholder="Please select your skills"
+                      onChange={this.handleChange}
+                      onDeselect={this.handleClose}
+                      style={{ width: '100%' }}
+                    >
+                      {children}
+                    </Select>)}
                   </Form.Item>
                 </Form>
             )}

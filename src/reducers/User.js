@@ -8,7 +8,6 @@ const initialState = {
   role: null,
   address: {
     address: null,
-    ward: null,
     district: null,
     province: null
   },
@@ -18,6 +17,7 @@ const initialState = {
   logintype: null, id: null,
   usertoken: null,
   loginErr: null,
+  wages: 0
 };
 export default function user(state = initialState, action) {
   switch (action.type) {
@@ -32,12 +32,12 @@ export default function user(state = initialState, action) {
         role: action.user.role,
         address: {
           address: action.user.address.address,
-          ward:  action.user.address.ward,
           district: action.user.address.district,
           province: action.user.address.province},
         current: action.user.current,
         loginErr: null,
         id: action.user._id,
+        wages: action.user.wages,
         introduction: action.user.introduction
       };
     }
@@ -55,14 +55,14 @@ export default function user(state = initialState, action) {
   role: null,
   address: {
     address: null,
-    ward:  null,
     district: null,
     province: null},
   date: null,
   current: 0,
   logintype: null,
   id: null,
-  introduction: null
+  introduction: null,
+  wages : 0
       };
     }
     case types.UPDATE_INFO: {
@@ -72,6 +72,7 @@ export default function user(state = initialState, action) {
         skills: action.user.skills,
         address: action.user.address,
         introduction: action.user.introduction,
+        wages: action.user.wages,
         current: 4
       };
     }

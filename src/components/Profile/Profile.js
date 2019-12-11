@@ -1,6 +1,6 @@
 import React from "react";
 import { Redirect } from 'react-router-dom';
-import MHeader from "../Header/MHeader";
+import MHeader from "../../containers/Header/MHeader";
 import MFooter from "../Footer/MFooter";
 import UserAvatar from "../../containers/Profile/UserAvatar";
 import MainInformation from "../../containers/Profile/MainInformation";

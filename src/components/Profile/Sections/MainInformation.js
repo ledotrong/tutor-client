@@ -1,8 +1,10 @@
 import React from "react";
-import {Input, Form, Tag, message, Tooltip, Icon, Button} from "antd";
+import {Input, Form, message, Select, Button} from "antd";
 import { withRouter } from 'react-router-dom';
 import * as callApi from '../../../utils/apiCaller';
+import data from '../../../core/data';
 const { TextArea } = Input;
+const { Option } = Select;
 
 class MainInformation extends React.Component{
     constructor(props){
@@ -11,8 +13,11 @@ class MainInformation extends React.Component{
             tags: [],
             isChange: false,
             loading: false,
-            inputVisible: false,
-            inputValue: '',
+            children: [],
+            provinces: [],
+            districts: [],
+            province: null,
+            district: null
         }
     }
     enterLoading = () => {
@@ -23,41 +28,19 @@ class MainInformation extends React.Component{
         if (tags.length === 0) this.setState({tags, isChange: false});
         else this.setState({ tags, isChange: true });
       };
-    
-      showInput = () => {
-        this.setState({ inputVisible: true }, () => this.input.focus());
-      };
-    
-      handleInputChange = e => {
-        this.setState({ inputValue: e.target.value });
-      };
-    
-      handleInputConfirm = () => {
-        const { inputValue } = this.state;
-        let { tags } = this.state;
-        if (inputValue && tags.indexOf(inputValue) === -1) {
-          tags = [...tags, inputValue];
-        }
-        console.log(tags);
-        this.setState({
-          tags,
-          inputVisible: false,
-          inputValue: '',
-        });
-      };
-      saveInputRef = input => (this.input = input);
     updateInfoRequest = e => {
         const {updateInfo} = this.props;
+        const {district, province} = this.state;
         e.preventDefault();
         const user = {
          name: document.getElementById('name').value,
          address: {
              address: document.getElementById('address').value,
-            ward: document.getElementById('ward').value,
-            district: document.getElementById('district').value,
-            province: document.getElementById('province').value
+            district: district,
+            province: province
          },
          skills: this.state.tags,
+         wages: parseInt(document.getElementById('wages').value),
          introduction: document.getElementById('introduction').value
        };
          return callApi.callApiUpdateInfo(user)
@@ -76,32 +59,63 @@ class MainInformation extends React.Component{
       if (e.target.value === "") this.setState({isChange: false});
       else this.setState({isChange: true});
     }
+    handleChangeProvince = e => {
+      var temp =[];
+      for (let j = 0 ; j<Object.keys(data[`${parseInt(e,10)+1}`].districts).length; j++)
+      {
+        temp.push(<Option key={j}>{data[`${parseInt(e,10)+1}`].districts[`${Object.keys(data[`${parseInt(e,10)+1}`].districts)[j]}`]}</Option>);
+      }
+      this.setState({districts: temp, isChange: true, province: data[`${parseInt(e,10)+1}`].name});
+    }
+    handleChangeDistrict = value =>{
+      const {districts} = this.state;
+      this.setState({district: districts[value].props.children});
+    }
+    
+    componentWillMount= ()=>{
+      const {allskills, getSkills} = this.props;
+      if (allskills.length === 0) getSkills();
+      var tempProvinces = [];
+      for (let i =0 ; i< Object.keys(data).length; i++){
+        tempProvinces.push(<Option key={i}>{data[`${i+1}`].name}</Option>);
+      }
+      this.setState({ provinces: tempProvinces});
+    }
     componentDidUpdate(prevProps){
-      const {name, address, introduction, skills} = this.props;
+      const {name, address, introduction, skills, wages, allskills} = this.props;
       if (prevProps.name !== name){
-      console.log("abcccc");
          this.props.form.setFieldsValue({
            name: name,
            address: address.address,
            ward: address.ward,
            district: address.district,
            province: address.province,
-           introduction: introduction
-         })
-         this.setState({tags: skills});
+           introduction: introduction,
+           wages: wages === 0 || wages === null? "Negotiate" : wages
+         });
+         var temp = [];
+         for (let i = 0; i < allskills.length; i++) {
+          temp.push(<Option key={i}>{allskills[i]}</Option>);
         }
+         this.setState({tags: skills, children: temp});
+        }
+    }
+    handleChangeSkills = (value) =>{
+      const {tags} = this.state;
+      this.setState({tags: [...tags, value]});
+      console.log(`Selected: ${value}`);
     }
     render(){
         const { getFieldDecorator } = this.props.form;
-        const {tags, isChange, loading, inputValue, inputVisible} = this.state;
+        const {tags, isChange, loading, children, provinces, districts} = this.state;
         const formItemLayout = {
             labelCol: {
-              xs: { span: 20 },
-              sm: { span: 4 }
+              xs: { span: 22 },
+              sm: { span: 6 }
             },
             wrapperCol: {
               xs: { span: 22 },
-              sm: { span: 18 }
+              sm: { span: 16 }
             }
           };
           const tailFormItemLayout = {
@@ -135,64 +149,56 @@ class MainInformation extends React.Component{
                       ]
                     })(<Input id="address"/>)}
                   </Form.Item>
-                  <Form.Item label="Ward">
-                    {getFieldDecorator('ward', {
-                      rules: [
-                        { required: true, message: 'Please input your ward!' }
-                      ]
-                    })(<Input id="ward" />)}
-                  </Form.Item>
-                  <Form.Item label="District">
-                    {getFieldDecorator('district', {
-                      rules: [{ required: true, message: 'Please input your district!' }]
-                    })(<Input id="district" />)}
-                  </Form.Item>
                   <Form.Item label="Province">
                     {getFieldDecorator('province', {
                       rules: [
                         { required: true, message: 'Please input your province!' }
                       ]
-                    })(<Input id="province" />)}
+                    })(<Select
+                      placeholder="Please select your province"
+                      onChange={this.handleChangeProvince}
+                      style={{ width: '100%' }}
+                      id="province"
+                    >
+                      {provinces}
+                    </Select>)}
                   </Form.Item>
+                  <Form.Item label="District">
+                    {getFieldDecorator('district', {
+                      rules: [{ required: true, message: 'Please input your district!' }]
+                    })(<Select
+                      placeholder="Please select your district"
+                      style={{ width: '100%' }}
+                      id="district"
+                      onChange={this.handleChangeDistrict}
+                    >
+                      {districts}
+                    </Select>)}
+                  </Form.Item>
+                  
                   <Form.Item label="Skills">
                     {getFieldDecorator('skills', {
                       rules: [
                         { required: true, message: 'Please input your skill!' }
                       ]
-                    })(<div>
-                        {tags.map((tag, index) => {
-                          const isLongTag = tag.length > 20;
-                          const tagElem = (
-                            <Tag key={tag} closable={index !== -1} onClose={() => this.handleClose(tag)}>
-                              {isLongTag ? `${tag.slice(0, 20)}...` : tag}
-                            </Tag>
-                          );
-                          return isLongTag ? (
-                            <Tooltip title={tag} key={tag}>
-                              {tagElem}
-                            </Tooltip>
-                          ) : (
-                            tagElem
-                          );
-                        })}
-                        {inputVisible && (
-                          <Input
-                            ref={this.saveInputRef}
-                            type="text"
-                            size="small"
-                            style={{ width: 78 }}
-                            value={inputValue}
-                            onChange={this.handleInputChange}
-                            onBlur={this.handleInputConfirm}
-                            onPressEnter={this.handleInputConfirm}
-                          />
-                        )}
-                        {!inputVisible && (
-                          <Tag onClick={this.showInput} style={{ background: '#fff', borderStyle: 'dashed' }}>
-                            <Icon type="plus" /> Add skill
-                          </Tag>
-                        )}
-                      </div>)}
+                    })(<Select
+                      mode="multiple"
+                      size="default"
+                      placeholder="Please select your skills"
+                      onChange={this.handleChangeSkills}
+                      defaultValue={tags}
+                      onDeselect={this.handleClose}
+                      style={{ width: '100%' }}
+                    >
+                      {children}
+                    </Select>)}
+                  </Form.Item>
+                  <Form.Item label="Minimum wages/hour">
+                    {getFieldDecorator('wages', {
+                      rules: [
+                        { required: true, message: 'Please input your minimum wages!' }
+                      ]
+                    })(<Input id="wages"/>)}
                   </Form.Item>
                   <Form.Item label="Introduction">
                     {getFieldDecorator('introduction', {

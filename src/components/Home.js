@@ -1,6 +1,13 @@
 import React from "react";
 import { Button} from 'antd';
 import {Link } from 'react-router-dom';
+import {
+    Layout,Breadcrumb
+  } from 'antd';
+ 
+import MHeader from "../containers/Header/MHeader";
+import MFooter from "./Footer/MFooter";
+const { Content} = Layout;
 export default class Home extends React.Component{
     renderSkills = () =>{
         const {skills} = this.props;
@@ -12,24 +19,36 @@ export default class Home extends React.Component{
         return kq;
     }
     render (){
-        const {role, email, address, name, getUser, logout, loginErr} = this.props;
+        const {role, email, address, name, getUser} = this.props;
         if (localStorage.getItem("usertoken") !== null && email === null)  getUser();
        if (email === null) return (
-            <div>
-               <Link to='/login'> <Button type="primary">Sign in</Button></Link>
-               <Link to='/register'> <Button type="primary">Sign up</Button></Link>
-            </div>
+                 <Layout className="layout">
+    <MHeader/>
+    <Breadcrumb style={{ margin: '20px 0' }}>
+      </Breadcrumb>
+    <Content style={{ padding: '0 50px' }}>
+    <div style={{ background: '#fff', padding: 24, minHeight: 480 }}>
+               </div>
+          </Content>
+       <MFooter/>
+        </Layout>
         );
         else return (
-            <div>
+            <Layout className="layout">
+    <MHeader/>
+    <Breadcrumb style={{ margin: '20px 0' }}>
+      </Breadcrumb>
+    <Content style={{ padding: '0 50px' }}>
+    <div style={{ background: '#fff', padding: 24, minHeight: 480 }}>
                 <p>Name: {name}</p>
                 <p>Email: {email}</p>
                 <p>Role: {role}</p>
                 <p>Address: {address.address}</p>
                 <p>Skills: <ul>{this.renderSkills()}</ul></p>
-                <Link to='/profile' ><Button type="primary">Change profile</Button></Link>
-                <Button type="primary" onClick={logout}>Log out</Button>
-            </div>
+                </div>
+          </Content>
+       <MFooter/>
+        </Layout>
         )
     }
 }

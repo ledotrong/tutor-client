@@ -9,7 +9,6 @@ export function callApiLogin(body) {
   });
 }
 export function callApiLoginFb(body) {
-  console.log("qwer",body);
   return axios({
     method: 'POST',
     data: body,
@@ -33,8 +32,6 @@ export function callApiRegister(body) {
   });
 }
 export function callApiRegisterFb(body) {
-  console.log("abcedf", body);
-  console.log("123456", body.fbid);
   return axios({
     method: 'POST',
     data: body,
@@ -56,7 +53,6 @@ export function callApiAddInfo(body) {
   });
 }
 export function callApiGetInfo() {
-  console.log('token', localStorage.getItem('usertoken'));
   return axios({
     method: 'GET',
     headers: {
@@ -109,6 +105,30 @@ export function callApiUpdateAvatar(body){
     },
     data: body,
     mode: 'cors',
-    url: `${api_url}/user/updateavatar`
+    url: `https://cors-anywhere.herokuapp.com/${api_url}/user/updateavatar`
   })
+}
+export function callApiGetSkills(){
+  return axios({
+    method: 'GET',
+    url: `${api_url}/skill/getallskills`
+  });
+}
+export function callApiSearchTutorList(data){
+  return axios({
+    method: 'GET',
+    url: `${api_url}/tutor/searchtutorlist?current=${data.current}&district=${data.district}&province=${data.province}&skill=${data.skill}&sortPrice=${data.sortPrice}`
+  });
+}
+export function callApiGetTutorList(){
+  return axios({
+    method: 'GET',
+    url: `${api_url}/tutor/gettutorlist`
+  });
+}
+export function callApiGetTutorDetail(_id){
+  return axios({
+    method: 'GET',
+    url: `${api_url}/tutor/gettutordetail?_id=${_id}`
+  });
 }
