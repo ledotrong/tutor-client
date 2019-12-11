@@ -158,7 +158,6 @@ class Register extends React.Component {
   }
   componentWillMount= ()=>{
     const {skills, getSkills} = this.props;
-    
     if (skills.lenght === 0) getSkills();
     
     var tempProvinces = [];
@@ -168,7 +167,8 @@ class Register extends React.Component {
     this.setState({ provinces: tempProvinces});
   }
   componentDidMount(){
-    const {skills} = this.props;
+    const {skills, getSkills} = this.props;
+    if (skills.lenght === 0) getSkills();
     var temp = [];
     for (let i = 0; i < skills.length; i++) {
       temp.push(<Option key={i}>{skills[i]}</Option>);
