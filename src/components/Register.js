@@ -166,7 +166,15 @@ class Register extends React.Component {
     }
     this.setState({ provinces: tempProvinces});
   }
-  componentDidUpdate(prevProps){
+  componentDidMount(){
+    const {skills} = this.props;
+    var temp = [];
+    for (let i = 0; i < skills.length; i++) {
+      temp.push(<Option key={i}>{skills[i]}</Option>);
+    }
+    this.setState({children: temp});
+  }
+  /*componentDidUpdate(prevProps){
     const {skills} = this.props;
     if (prevProps.skills !== skills) {
     var temp = [];
@@ -175,7 +183,7 @@ class Register extends React.Component {
     }
     this.setState({children: temp});
   }
-  }
+  }*/
   render() {
     const { getFieldDecorator } = this.props.form;
     const { current} = this.props;
