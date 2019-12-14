@@ -66,7 +66,7 @@ class Register extends React.Component {
       },
         skills: tags,
         id: id
-      };
+      };console.log(user);
       if (user.name && user.address.address && user.address.district && user.address.province && user.skills.length){
         return callApi
           .callApiAddInfo(user)
@@ -129,11 +129,6 @@ class Register extends React.Component {
       }
     });
   }
-  handleClose = removedTag => {
-    const tags = this.state.tags.filter(tag => tag !== removedTag);
-    console.log(tags);
-    this.setState({ tags });
-  };
   onChange = e => {
     console.log('radio checked', e.target.value);
     this.setState({
@@ -141,9 +136,17 @@ class Register extends React.Component {
     });
   };
   handleChange = (value) =>{
-    const {tags} = this.state;
-    this.setState({tags: [...tags, value]});
-    console.log(`Selected: ${value}`);
+    const {skills} = this.props;
+      var kq = [];
+      for (let i =0 ;i <value.length; i++)
+      {
+        kq.push(skills[value[i]]);
+      } 
+       this.setState({tags: kq});
+  }
+  handleChangeDistrict = value =>{
+    const {districts} = this.state;
+    this.setState({district: districts[value].props.children});
   }
   handleChangeProvince = e => {
     var temp =[];
@@ -158,23 +161,15 @@ class Register extends React.Component {
   }
   componentWillMount= ()=>{
     const {skills, getSkills} = this.props;
-    if (skills.lenght === 0) getSkills();
-    
+     getSkills();
+    console.log("willmount", skills);
     var tempProvinces = [];
     for (let i =0 ; i< Object.keys(data).length; i++){
       tempProvinces.push(<Option key={i}>{data[`${i+1}`].name}</Option>);
     }
     this.setState({ provinces: tempProvinces});
   }
-  componentDidMount(){
-    const {skills} = this.props;
-    var temp = [];
-    for (let i = 0; i < skills.length; i++) {
-      temp.push(<Option key={i}>{skills[i]}</Option>);
-    }
-    this.setState({children: temp});
-  }
-  /*componentDidUpdate(prevProps){
+  componentDidUpdate(prevProps){
     const {skills} = this.props;
     if (prevProps.skills !== skills) {
     var temp = [];
@@ -183,7 +178,7 @@ class Register extends React.Component {
     }
     this.setState({children: temp});
   }
-  }*/
+  }
   render() {
     const { getFieldDecorator } = this.props.form;
     const { current} = this.props;
@@ -317,7 +312,7 @@ class Register extends React.Component {
                     {getFieldDecorator('district', {
                       rules: [{ required: true, message: 'Please input your district!' }]
                     })(<Select
-                    labelInValue
+                    onChange={this.handleChangeDistrict}
                       placeholder="Please select your district"
                       style={{ width: '100%' }}
                       id="district"
@@ -333,7 +328,6 @@ class Register extends React.Component {
                       size="default"
                       placeholder="Please select your skills"
                       onChange={this.handleChange}
-                      onDeselect={this.handleClose}
                       style={{ width: '100%' }}
                     >
                       {children}

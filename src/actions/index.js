@@ -51,7 +51,6 @@ export const login = user => ({
         .then(res => {
           console.log(res.data);
           localStorage.setItem('usertoken', res.data.token);
-
           dispatch(login(res.data.user));
           console.log("token",localStorage.getItem('usertoken'));
         })

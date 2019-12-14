@@ -10,7 +10,7 @@ export const types = {
     SET_SKILLS: 'SET_SKILLS'
   };
   
-  export const api_url = 'https://tutorclientapi.herokuapp.com';
+  export const api_url = /*'https://tutorclientapi.herokuapp.com'*/ 'http://localhost:4000';
   
   export const id = {
     GOOGLE_CLIENT_ID:

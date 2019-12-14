@@ -17,16 +17,11 @@ class MainInformation extends React.Component{
             provinces: [],
             districts: [],
             province: null,
-            district: null
+            district: null,
         }
     }
     enterLoading = () => {
         this.setState({ loading: true });
-      };
-      handleClose = removedTag => {
-        const tags = this.state.tags.filter(tag => tag !== removedTag);
-        if (tags.length === 0) this.setState({tags, isChange: false});
-        else this.setState({ tags, isChange: true });
       };
     updateInfoRequest = e => {
         const {updateInfo} = this.props;
@@ -43,6 +38,7 @@ class MainInformation extends React.Component{
          wages: parseInt(document.getElementById('wages').value),
          introduction: document.getElementById('introduction').value
        };
+       console.log("user",user);
          return callApi.callApiUpdateInfo(user)
            .then(() => {
              message.success("Update info successfully!");
@@ -73,6 +69,7 @@ class MainInformation extends React.Component{
     }
     
     componentWillMount= ()=>{
+      console.log("willmount");
       const {allskills, getSkills} = this.props;
       if (allskills.length === 0) getSkills();
       var tempProvinces = [];
@@ -81,9 +78,9 @@ class MainInformation extends React.Component{
       }
       this.setState({ provinces: tempProvinces});
     }
-    componentDidUpdate(prevProps){
+    componentDidMount(){
       const {name, address, introduction, skills, wages, allskills} = this.props;
-      if (prevProps.name !== name){
+      console.log("didmount",allskills)
          this.props.form.setFieldsValue({
            name: name,
            address: address.address,
@@ -91,6 +88,7 @@ class MainInformation extends React.Component{
            district: address.district,
            province: address.province,
            introduction: introduction,
+           skills: skills,
            wages: wages === 0 || wages === null? "Negotiate" : wages
          });
          var temp = [];
@@ -98,16 +96,47 @@ class MainInformation extends React.Component{
           temp.push(<Option key={i}>{allskills[i]}</Option>);
         }
          this.setState({tags: skills, children: temp});
+    }
+    componentDidUpdate(prevProps){
+      const {name, address, introduction, skills, wages, allskills} = this.props;
+      if (prevProps.name !== name && prevProps.name === null){
+        console.log("didupdate", allskills)
+         this.props.form.setFieldsValue({
+           name: name,
+           address: address.address,
+           ward: address.ward,
+           district: address.district,
+           province: address.province,
+           introduction: introduction,
+           skills: skills,
+           wages: wages === 0 || wages === null? "Negotiate" : wages
+         });
+         var temp = [];
+         for (let i = 0; i < allskills.length; i++) {
+          temp.push(<Option key={i}>{allskills[i]}</Option>);
+        }
+         this.setState({tags: skills, children: temp, province: address.province, district: address.district});
         }
     }
     handleChangeSkills = (value) =>{
-      const {tags} = this.state;
-      this.setState({tags: [...tags, value]});
-      console.log(`Selected: ${value}`);
+      const {allskills} = this.props;
+      const { tags} = this.state;
+      var kq = [];
+
+      for (let i =0 ;i <value.length; i++)
+      {
+        if (allskills[value[i]] !== undefined)
+          kq.push(allskills[value[i]]);
+        else kq.push(value[i])
+      }
+      console.log(kq)
+      if (kq.length === 0) this.setState({tags: kq , isChange: false});   
+      else this.setState({tags: kq , isChange: true});
     }
     render(){
         const { getFieldDecorator } = this.props.form;
         const {tags, isChange, loading, children, provinces, districts} = this.state;
+        console.log(tags,isChange)
         const formItemLayout = {
             labelCol: {
               xs: { span: 22 },
@@ -187,7 +216,6 @@ class MainInformation extends React.Component{
                       placeholder="Please select your skills"
                       onChange={this.handleChangeSkills}
                       defaultValue={tags}
-                      onDeselect={this.handleClose}
                       style={{ width: '100%' }}
                     >
                       {children}

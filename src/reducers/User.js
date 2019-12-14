@@ -30,10 +30,7 @@ export default function user(state = initialState, action) {
         picture: action.user.picture,
         skills: action.user.skills,
         role: action.user.role,
-        address: {
-          address: action.user.address.address,
-          district: action.user.address.district,
-          province: action.user.address.province},
+        address: action.user.address===undefined?{address: null,district: null,province: null}: action.user.address,
         current: action.user.current,
         loginErr: null,
         id: action.user._id,
@@ -70,7 +67,7 @@ export default function user(state = initialState, action) {
         ...state,
         name: action.user.name,
         skills: action.user.skills,
-        address: action.user.address,
+        address: action.user.address===undefined?{address: null,district: null,province: null}: action.user.address,
         introduction: action.user.introduction,
         wages: action.user.wages,
         current: 4
