@@ -1,6 +1,6 @@
 import React from "react";
 import {Input, Form, message, Select, Button} from "antd";
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 import * as callApi from '../../../utils/apiCaller';
 import data from '../../../core/data';
 const { TextArea } = Input;
@@ -24,7 +24,7 @@ class MainInformation extends React.Component{
         this.setState({ loading: true });
       };
     updateInfoRequest = e => {
-        const {updateInfo} = this.props;
+        const {updateInfo, logout} = this.props;
         const {district, province} = this.state;
         e.preventDefault();
         const user = {
@@ -39,16 +39,22 @@ class MainInformation extends React.Component{
          introduction: document.getElementById('introduction').value
        };
        console.log("user",user);
-         return callApi.callApiUpdateInfo(user)
+         callApi.callApiUpdateInfo(user)
            .then(() => {
              message.success("Update info successfully!");
              this.setState({isChange: false, loading: false});
              updateInfo(user);
            })
            .catch(err => {
+            if (err.response.data === "Invalid token") {
+              logout();
+           return (<Redirect to='/login'/>)
+          }
+          else {
              console.log(err);
              this.setState({loading: false});
              message.error("Update info failed.");
+          }
            });
     }
     handleChange = e => {

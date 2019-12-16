@@ -1,4 +1,5 @@
 import React from "react";
+import {Redirect} from "react-router-dom";
 import {Avatar, message, Upload, Button, Icon} from "antd";
 import * as callApi from '../../../utils/apiCaller';
 
@@ -9,7 +10,7 @@ function getBase64(img, callback) {
 }
 export default class UserAvatar extends React.Component {
     render(){
-        const {picture, updatePicture} = this.props;
+        const {picture, updatePicture, logout} = this.props;
         const props = {
           name: 'file',
   action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
@@ -26,7 +27,11 @@ export default class UserAvatar extends React.Component {
                     updatePicture(imageUrl);
                     message.success(`Update avatar successfully!`);
                 }).catch(err => {
-                    message.error("Update avatar failed.");
+                  if (err.response.data === "Invalid token") {
+                    logout();
+                 return (<Redirect to='/login'/>)
+                }
+                   else  message.error("Update avatar failed.");
               });
                 });
                

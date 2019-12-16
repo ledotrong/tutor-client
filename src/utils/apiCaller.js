@@ -132,3 +132,15 @@ export function callApiGetTutorDetail(_id){
     url: `${api_url}/tutor/gettutordetail?_id=${_id}`
   });
 }
+export function callApiChangePassword(data){
+  return axios({
+    method: "POST",
+    mode: "cors",
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+    },
+    data: data,
+    url: `${api_url}/user/changepassword`
+  })
+}

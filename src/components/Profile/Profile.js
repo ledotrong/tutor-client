@@ -4,6 +4,7 @@ import MHeader from "../../containers/Header/MHeader";
 import MFooter from "../Footer/MFooter";
 import UserAvatar from "../../containers/Profile/UserAvatar";
 import MainInformation from "../../containers/Profile/MainInformation";
+import ChangePassword from "../../containers/Profile/ChangePassword";
 import { Layout, Breadcrumb } from "antd";
 
 const { Content} = Layout;
@@ -26,6 +27,7 @@ export default class Profile extends React.Component{
         <h1 style={{margin: "10px 35px"}}>Edit Account</h1><hr/>
          <UserAvatar/>
          <MainInformation/>
+         <ChangePassword/>
       </div>
     </Content>
     <MFooter/>

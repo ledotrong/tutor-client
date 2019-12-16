@@ -18,6 +18,9 @@ const mapDispatchToProps = dispatch => {
     },
     getSkills: () =>{
       dispatch(actions.getSkills());
+    },
+    logout: ()=>{
+      dispatch(actions.logOut());
     }
   };
 };

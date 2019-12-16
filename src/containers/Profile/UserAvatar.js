@@ -9,6 +9,9 @@ const mapDispatchToProps = dispatch => {
   return {
     updatePicture: picture => {
       dispatch(actions.updatePicture(picture));
+    },
+    logout: ()=>{
+      dispatch(actions.logOut());
     }
   };
 };
