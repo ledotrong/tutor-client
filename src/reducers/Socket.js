@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import { types } from '../core/constants';
 
 const initialState = {
-  socket: io('http://localhost:4000')
+  socket: io('https://tutorclientapi.herokuapp.com')
 };
 export default function socket(state = initialState, action) {
   switch (action.type) {
