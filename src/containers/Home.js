@@ -7,7 +7,8 @@ const mapStateToProps = state => ({
   email: state.user.email,
   name: state.user.name,
   address: state.user.address,
-  skills: state.user.skills
+  skills: state.user.skills,
+  socket: state.socket.socket
 });
 const mapDispatchToProps = dispatch => {
   return {

@@ -9,7 +9,8 @@ const mapStateToProps = state => ({
   introduction: state.user.introduction,
   email: state.user.email,
   allskills: state.skills.skills,
-  wages: state.user.wages
+  wages: state.user.wages,
+  role: state.user.role
 });
 const mapDispatchToProps = dispatch => {
   return {

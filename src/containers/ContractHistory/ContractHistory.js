@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
-import Profile from '../../components/Profile/Profile';
+import ContractHistory from '../../components/ContractHistory/ContractHistory';
 import * as actions from '../../actions/index';
 
 const mapStateToProps = state => ({
     email: state.user.email,
+    picture: state.user.picture,
     name: state.user.name,
-    picture: state.user.picture
+    role: state.user.role
   });
 
 const mapDispatchToProps = dispatch => {
@@ -19,4 +20,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     mapStateToProps,
   mapDispatchToProps
-)(Profile);
+)(ContractHistory);

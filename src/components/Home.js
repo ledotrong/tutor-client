@@ -17,8 +17,8 @@ export default class Home extends React.Component{
         return kq;
     }
     render (){
-        const {role, email, address, name, getUser} = this.props;
-        if (localStorage.getItem("usertoken") !== null && email === null)  getUser();
+        const {role, email, address, name, getUser, socket} = this.props;
+        if (localStorage.getItem("usertoken") !== null && email === null)  getUser(); 
        if (email === null) return (
                  <Layout className="layout">
     <MHeader/>

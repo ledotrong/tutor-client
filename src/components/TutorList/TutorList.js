@@ -3,8 +3,9 @@ import { withRouter } from 'react-router-dom';
 import { Layout, Breadcrumb, Select, message, Form, Row, Col, Button, Pagination } from "antd";
 import MHeader from "../../containers/Header/MHeader";
 import MFooter from "../Footer/MFooter";
-import TutorsInfo from "./Sections/TutorsInfo";
+import TutorsInfo from "../../containers/TutorList/TutorInfo";
 import * as callApi from '../../utils/apiCaller';
+import Chat from "../../containers/Chat/Chat";
 import data from '../../core/data';
 const { Option } = Select;
 const { Content} = Layout;
@@ -115,7 +116,7 @@ class TutorList extends React.Component{
         }
       }
     render(){
-        const {provinces, districts, children, tutorlist, current, totalPage, loading, sortPrice} = this.state;
+        const {provinces, districts, children, tutorlist, current, totalPage, loading} = this.state;
         const { getFieldDecorator } = this.props.form;
         return(
             <Layout className="layout">
@@ -127,7 +128,7 @@ class TutorList extends React.Component{
       </Breadcrumb>
       <div style={{ background: '#fff', padding: 24, minHeight: 280, display:'block' }}>
       <Form className="ant-advanced-search-form" onSubmit={this.handleSearch}>
-        <Row gutter={24}>
+        <Row gutter={[24,4]}>
         <Col span={6} key={0} style={{ display: 'block' }}>
               <Form.Item label={"Province"}>
                 {getFieldDecorator(`province`, {
@@ -135,7 +136,7 @@ class TutorList extends React.Component{
                 })(<Select
                     showSearch
                     defaultValue={null}
-                    style={{ width: 200 }}
+                    
                     placeholder="Select province"
                     optionFilterProp="children"
                     onChange={this.handleChangeProvince}
@@ -154,7 +155,6 @@ class TutorList extends React.Component{
                 })(<Select
                     showSearch
                     labelInValue
-                    style={{ width: 200 }}
                     placeholder="Select district"
                     optionFilterProp="children"
                     onChange={this.handleChangeDistrict}
@@ -173,7 +173,6 @@ class TutorList extends React.Component{
                 })(<Select
                 labelInValue
                     showSearch
-                    style={{ width: 200 }}
                     placeholder="Select sort price"
                     optionFilterProp="children"
                     onChange={this.handleChangePrice}
@@ -194,7 +193,6 @@ class TutorList extends React.Component{
                 })(<Select
                     showSearch
                     labelInValue
-                    style={{ width: 200 }}
                     placeholder="Select skill"
                     optionFilterProp="children"
                     onChange={this.handleChangeSkill}
@@ -221,6 +219,7 @@ class TutorList extends React.Component{
         <TutorsInfo tutorlist={tutorlist} loading={loading}/>
         <Pagination style={{textAlign:"center", margin:"auto"}}  total={(parseInt(totalPage/6)+(totalPage%6===0?0:1))*10} current={current} onChange={this.handleChangePage} />
       </div>
+      {localStorage.getItem("usertoken") === null? null : <Chat/>}
     </Content>
     <MFooter/>
   </Layout>

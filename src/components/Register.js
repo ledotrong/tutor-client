@@ -36,6 +36,7 @@ class Register extends React.Component {
   }
   registerRequest = e => {
     e.preventDefault();
+    console.log("helooooooo")
     const {setCurrent} =this.props;
     const user = {
       email: document.getElementById('email').value,
@@ -55,7 +56,7 @@ class Register extends React.Component {
   };
    addInfoRequest = e => {
        e.preventDefault();
-       const {id} = this.props;
+       const {id, role} = this.props;
        const {district, province, tags} = this.state;
        const user = {
         name: document.getElementById('name').value,
@@ -65,9 +66,10 @@ class Register extends React.Component {
          province: province
       },
         skills: tags,
-        id: id
+        id: id,
+        role: role
       };console.log(user);
-      if (user.name && user.address.address && user.address.district && user.address.province && user.skills.length){
+      if (user.name && user.address.address && user.address.district && user.address.province){
         return callApi
           .callApiAddInfo(user)
           .then(() => {
@@ -181,7 +183,7 @@ class Register extends React.Component {
   }
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { current} = this.props;
+    const { current, role} = this.props;
     const {districts, provinces, children} = this.state;
     const formItemLayout = {
       labelCol: {
@@ -320,19 +322,22 @@ class Register extends React.Component {
                       {districts}
                     </Select>)}
                   </Form.Item>
-                  <Form.Item label="Skills">
-                    {getFieldDecorator('skills', {
-                      rules: []
-                    })(<Select
-                      mode="multiple"
-                      size="default"
-                      placeholder="Please select your skills"
-                      onChange={this.handleChange}
-                      style={{ width: '100%' }}
-                    >
-                      {children}
-                    </Select>)}
-                  </Form.Item>
+                  {role === "tutor"?
+                   <Form.Item label="Skills">
+                   {getFieldDecorator('skills', {
+                     rules: []
+                   })(<Select
+                     mode="multiple"
+                     size="default"
+                     placeholder="Please select your skills"
+                     onChange={this.handleChange}
+                     style={{ width: '100%' }}
+                   >
+                     {children}
+                   </Select>)}
+                 </Form.Item> :
+                 null}
+                 
                 </Form>
             )}
         </div>

@@ -13,7 +13,9 @@ import Register from './containers/Register';
 import VerifyAccount from './containers/VerifyAccount';
 import Profile from './containers/Profile/Profile';
 import TutorList from './containers/TutorList/TutorList';
-import TutorDetail from './components/TutorDetail/TutorDetail';
+import UserDetail from './containers/UserDetail/UserDetail';
+import ForgotPassword from './components/ForgotPassword';
+import ContractHistory from './containers/ContractHistory/ContractHistory';
 import 'antd/dist/antd.css';
 import './App.css';
 import RegisterFB_GG from './containers/RegisterFB_GG';
@@ -26,10 +28,12 @@ const Root = ({ store }) => (
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/profile" component={Profile}/>
-          <Route path="/verifyaccount/:id" component={VerifyAccount} />
+          <Route path="/verifyaccount/:id/:role" component={VerifyAccount} />
           <Route path="/registerfbgg" component={RegisterFB_GG}/>
           <Route path="/tutorlist" component={TutorList}/>
-          <Route path="/tutordetail/:_id" component={TutorDetail}/>
+          <Route path="/userdetail/:_id" component={UserDetail}/>
+          <Route path='/forgotpassword' component={ForgotPassword}/>
+          <Route path='/contracthistory' component={ContractHistory}/>
         </Switch>
       </Router>
     </HashRouter>

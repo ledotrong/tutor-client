@@ -9,7 +9,8 @@ import { id } from '../core/constants';
 class Login extends React.Component {
   loginRequest = e => {
     e.preventDefault();
-    const { login } = this.props;
+    const { login} = this.props;
+    
     login({
       email: document.getElementById('email').value,
       password: document.getElementById('password').value
@@ -93,9 +94,9 @@ class Login extends React.Component {
                 valuePropName: 'checked',
                 initialValue: true
               })(<Checkbox style={{ color: '#fff' }}>Remember me</Checkbox>)}
-              <a className="login-form-forgot" href="">
+             <Link to="/forgotpassword"><a className="login-form-forgot" href="">
                 Forgot password
-              </a>
+              </a></Link>
               <Button
                 type="primary"
                 htmlType="submit"

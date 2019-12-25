@@ -11,6 +11,9 @@ const mapDispatchToProps = dispatch => {
       },
       setId: id => {
         dispatch(actions.setId(id));
+      },
+      setRole: role => {
+        dispatch(actions.setRole(role));
       }
     };
   };

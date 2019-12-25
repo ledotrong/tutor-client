@@ -7,10 +7,18 @@ export const types = {
     SET_ID: 'SET_ID',
     UPDATE_PICTURE: 'UPDATE_PICTURE',
     UPDATE_INFO: 'UPDATE_INFO',
-    SET_SKILLS: 'SET_SKILLS'
+    SET_SKILLS: 'SET_SKILLS',
+    SET_ROLE: 'SET_ROLE',
+    ADD_MESSAGE: 'ADD_MESSAGE',
+    SET_MESSAGES: 'SET_MESSAGES',
+    SWITCH_IS_CHAT: 'SWITCH_IS_CHAT',
+    ADD_MESSAGE_CLIENT: 'ADD_MESSAGE_CLIENT',
+    ADD_4_MESSAGES: 'ADD_4_MESSAGES',
+    SET_4_MESSAGES: 'SET_4_MESSAGES',
+    SET_NUM_OF_NEW_MESSAGES: 'SET_NUM_OF_NEW_MESSAGES'
   };
   
-  export const api_url = /*'https://tutorclientapi.herokuapp.com'*/ 'http://localhost:4000';
+  export const api_url = 'https://tutorclientapi.herokuapp.com' /*'http://localhost:4000'*/;
   
   export const id = {
     GOOGLE_CLIENT_ID:

@@ -126,10 +126,10 @@ export function callApiGetTutorList(){
     url: `${api_url}/tutor/gettutorlist`
   });
 }
-export function callApiGetTutorDetail(_id){
+export function callApiGetUserDetail(_id){
   return axios({
     method: 'GET',
-    url: `${api_url}/tutor/gettutordetail?_id=${_id}`
+    url: `${api_url}/user/getuserdetail?_id=${_id}`
   });
 }
 export function callApiChangePassword(data){
@@ -142,5 +142,112 @@ export function callApiChangePassword(data){
     },
     data: data,
     url: `${api_url}/user/changepassword`
+  })
+}
+export function callApiChooseTutor(data){
+  return axios({
+    method: "POST",
+    mode: "cors",
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+    },
+    data: data,
+    url: `${api_url}/contract/addcontract`
+  })
+}
+export function callApiForgotPassword(email){
+  console.log(email)
+  return axios({
+    method: "POST",
+    mode: "cors",
+    data: email,
+    url: `${api_url}/user/forgotpassword`
+  })
+}
+export function callApiCheckCode(data){
+  return axios({
+    method: "POST",
+    mode: "cors",
+    data: data,
+    url: `${api_url}/user/checkcode`
+  })
+}
+export function callApiChangeForgotPassword(data){
+  return axios({
+    method: "POST",
+    mode: "cors",
+    data: data,
+    url: `${api_url}/user/changeforgotpassword`
+  })
+}
+export function callApiGetContract(data){
+  return axios({
+    method: "GET",
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+    },
+    mode: "cors",
+    url: `${api_url}/contract/getcontract?current=${data.current}&status=${data.status}`
+  })
+}
+export function callApiUpdateContract(data){
+  return axios({
+    method: "POST",
+    mode: "cors",
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+    },
+    data: data,
+    url: `${api_url}/contract/updatecontract`
+  })
+}
+export function callApiGetMessage(id){
+  return axios({
+    method: "GET",
+    mode: "cors",
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+    },
+    url: `${api_url}/message/getmessage?id=${id}`
+  })
+}
+export function callApiAddMessage(data){
+  return axios({
+    method: "POST",
+    mode: "cors",
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+    },
+    data: data,
+    url: `${api_url}/message/addmessage`
+  })
+}
+export function callApiGet4Messages(data){
+  return axios({
+    method: "GET",
+    mode: "cors",
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+    },
+    url: `${api_url}/message/get4messages?data=${data}`
+  })
+}
+export function callApiSeenMessages(data){
+  console.log(data)
+  return axios({
+    method: "POST",
+    mode: "cors",
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+    },
+    data: data,
+    url: `${api_url}/message/seenmessages`
   })
 }

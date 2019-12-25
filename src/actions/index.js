@@ -1,6 +1,5 @@
 import { types } from '../core/constants';
 import * as callApi from '../utils/apiCaller';
-
 export const login = user => ({
     type: types.LOGIN,
     user
@@ -18,7 +17,11 @@ export const login = user => ({
           console.log("res.data", res.data);
           if (res.data.status === "inactive") dispatch(setLogintype("facebook"));
           dispatch(login(res.data));
-          
+          callApi.callApiGet4Messages(0).then((data)=>{
+            dispatch(set4Messages(data.data.data));
+          }).catch(err=>{
+            console.log(err);
+          })
         })
         .catch(err => {
           console.log(err.response);
@@ -34,7 +37,11 @@ export const login = user => ({
           localStorage.setItem('usertoken', res.data.token);
           if (res.data.status === "inactive") dispatch(setLogintype("google"));
           dispatch(login(res.data));
-          
+          callApi.callApiGet4Messages(0).then((data)=>{
+            dispatch(set4Messages(data.data.data));
+          }).catch(err=>{
+            console.log(err);
+          })
         })
         .catch(err => {
           dispatch(loginErr(err.response.data));
@@ -53,6 +60,11 @@ export const login = user => ({
           localStorage.setItem('usertoken', res.data.token);
           dispatch(login(res.data.user));
           console.log("token",localStorage.getItem('usertoken'));
+          callApi.callApiGet4Messages(0).then((data)=>{
+            dispatch(set4Messages(data.data.data));
+          }).catch(err=>{
+            console.log(err);
+          })
         })
         .catch(err => {
           console.log(err);
@@ -66,8 +78,14 @@ export const login = user => ({
       return callApi
         .callApiGetInfo()
         .then(res => {
-          if (res.data.status === "active")
+          if (res.data.status === "active"){
             dispatch(login(res.data));
+            callApi.callApiGet4Messages(0).then((data)=>{
+              dispatch(set4Messages(data.data.data));
+            }).catch(err=>{
+              console.log(err);
+            })
+          }
           else localStorage.removeItem('usertoken');
         })
         .catch(err => {
@@ -96,6 +114,10 @@ export const login = user => ({
     type: types.SET_ID,
     id
   }); 
+  export const setRole = role => ({
+    type: types.SET_ROLE,
+    role
+  }); 
   export const updatePicture = picture => ({
     type: types.UPDATE_PICTURE,
     picture
@@ -120,3 +142,57 @@ export const login = user => ({
         });
     };
   }
+  export const addMessage = message => ({
+    type: types.ADD_MESSAGE,
+    message
+  });
+  export const addMessageClient = message => ({
+    type: types.ADD_MESSAGE_CLIENT,
+    message
+  });
+  export const addMessageRequest = data =>{
+    return dispatch=>{
+      return callApi.callApiAddMessage(data).then(()=>{
+        dispatch(addMessage(data));
+      }).catch(err=>{
+        console.log(err);
+      })
+    }
+  }
+ export const setMessages = (data)=>({
+   type: types.SET_MESSAGES,
+   data
+ })
+  export const getMessage = id =>{
+    return dispatch=>{
+       callApi.callApiGetMessage(id).then((data)=>{
+         if (data.data.messages[0]) {
+         for (let i =0;i<data.data.messages[0].message.length; i++){
+          if (data.data.messages[0].message[i].author === id)
+          data.data.messages[0].message[i].author = "them";
+          else data.data.messages[0].message[i].author = "me";
+         }
+        }
+         console.log("dataaa", data)
+      dispatch(setMessages(data))
+    }).catch(err=>{
+      console.log(err);
+    })
+  }
+  }
+  export const switchIsChat = data=>({
+    type: types.SWITCH_IS_CHAT,
+    data
+  })
+  export const add4Messages = data=>({
+    type: types.ADD_4_MESSAGES,
+    data
+  })
+  export const set4Messages = data=>({
+    type: types.SET_4_MESSAGES,
+    data
+  })
+  export const setNumOfNewMessages = data=>({
+    type: types.SET_NUM_OF_NEW_MESSAGES,
+    data
+  })

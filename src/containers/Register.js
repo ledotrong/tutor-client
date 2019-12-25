@@ -4,7 +4,8 @@ import * as actions from '../actions/index';
 const mapStateToProps = state => ({
   current: state.user.current,
   id: state.user.id,
-  skills: state.skills.skills
+  skills: state.skills.skills,
+  role: state.user.role
 });
 const mapDispatchToProps = dispatch => {
   return {

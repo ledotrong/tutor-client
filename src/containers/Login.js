@@ -7,7 +7,8 @@ const mapStateToProps = state => ({
   usertoken: state.user.usertoken,
   loginErr: state.user.loginErr,
   current: state.user.current,
-  logintype: state.user.logintype
+  logintype: state.user.logintype,
+  socket: state.socket.socket
 });
 const mapDispatchToProps = dispatch => {
   return {

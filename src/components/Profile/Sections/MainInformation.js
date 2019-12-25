@@ -24,10 +24,12 @@ class MainInformation extends React.Component{
         this.setState({ loading: true });
       };
     updateInfoRequest = e => {
-        const {updateInfo, logout} = this.props;
+        const {updateInfo, logout, role} = this.props;
         const {district, province} = this.state;
         e.preventDefault();
-        const user = {
+        var user;
+        if (role === "tutor")
+         user = {
          name: document.getElementById('name').value,
          address: {
              address: document.getElementById('address').value,
@@ -38,6 +40,13 @@ class MainInformation extends React.Component{
          wages: parseInt(document.getElementById('wages').value),
          introduction: document.getElementById('introduction').value
        };
+       else user = {
+        name: document.getElementById('name').value,
+        address: {
+            address: document.getElementById('address').value,
+           district: district,
+           province: province
+        }};
        console.log("user",user);
          callApi.callApiUpdateInfo(user)
            .then(() => {
@@ -141,6 +150,7 @@ class MainInformation extends React.Component{
     }
     render(){
         const { getFieldDecorator } = this.props.form;
+        const {role} = this.props;
         const {tags, isChange, loading, children, provinces, districts} = this.state;
         console.log(tags,isChange)
         const formItemLayout = {
@@ -210,7 +220,7 @@ class MainInformation extends React.Component{
                       {districts}
                     </Select>)}
                   </Form.Item>
-                  
+                  {role === "tutor"?<div>
                   <Form.Item label="Skills">
                     {getFieldDecorator('skills', {
                       rules: [
@@ -238,7 +248,7 @@ class MainInformation extends React.Component{
                     {getFieldDecorator('introduction', {
                       rules: []
                     })(<TextArea rows={4} id="introduction"/>)}
-                  </Form.Item>
+                  </Form.Item></div>: null}
                   <Form.Item {...tailFormItemLayout}>
                 <Button type="primary" htmlType="submit" loading={loading} onClick={this.enterLoading} disabled={!(isChange)}>
                   Save Changes

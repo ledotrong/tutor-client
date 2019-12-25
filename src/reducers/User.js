@@ -17,7 +17,8 @@ const initialState = {
   logintype: null, id: null,
   usertoken: null,
   loginErr: null,
-  wages: 0
+  wages: 0,
+  newMessages: 0
 };
 export default function user(state = initialState, action) {
   switch (action.type) {
@@ -35,7 +36,8 @@ export default function user(state = initialState, action) {
         loginErr: null,
         id: action.user._id,
         wages: action.user.wages,
-        introduction: action.user.introduction
+        introduction: action.user.introduction,
+        newMessages: action.user.newMessages
       };
     }
     case types.LOGIN_ERR: {
@@ -85,8 +87,14 @@ export default function user(state = initialState, action) {
     case types.SET_ID: {
       return {...state, id: action.id};
     }
+    case types.SET_ROLE: {
+      return {...state, role: action.role};
+    }
     case types.UPDATE_PICTURE: {
       return {...state, picture: action.picture};
+    }
+    case types.SET_NUM_OF_NEW_MESSAGES: {
+      return {...state, newMessages: action.data};
     }
     default:
       return state;
