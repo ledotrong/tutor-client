@@ -46,7 +46,7 @@ class Login extends React.Component {
       if (current === 1 && logintype === null) return <Redirect to='/register' />;
       else if (logintype !== null) return <Redirect to='/registerfbgg' />;
       else
-          return <Redirect to="/" />;
+          return window.location.assign("/");
     }
     if (loginErr === null) getUser();
     return (

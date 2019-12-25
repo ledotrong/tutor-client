@@ -154,6 +154,12 @@ export const login = user => ({
     return dispatch=>{
       return callApi.callApiAddMessage(data).then(()=>{
         dispatch(addMessage(data));
+        callApi.callApiGet4Messages(0).then((data1)=>{
+          console.log("send message", data1.data.data)
+          set4Messages(data1.data.data);
+        }).catch(err=>{
+          console.log(err);
+        })
       }).catch(err=>{
         console.log(err);
       })

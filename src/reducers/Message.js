@@ -33,6 +33,15 @@ export default function message(state = initialState, action) {
     case types.SWITCH_IS_CHAT:{
         return {...state, isChat: action.data};
     }
+    case types.LOGOUT: {
+      return {
+        userID: null,
+    name: null,
+    picture: null,
+    messages: [],
+    isChat: false
+      }
+    }
     default:
       return state;
   }

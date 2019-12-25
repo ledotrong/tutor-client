@@ -9,20 +9,15 @@ class Chat extends React.Component {
   _onMessageWasSent(message) {
     if (this.state.enter === false){
       this.state.enter = true;
-    const { addMessage, userID, name, picture, id, set4Messages } = this.props;
+    const { addMessage, userID, name, picture, id } = this.props;
     message.author = id;
-    console.log("dd",message)
+    console.log("dd",userID)
     if (userID) {
       var data = {
         userID, message, id, name, picture
       }
       addMessage(data);
-      callApi.callApiGet4Messages(0).then((data)=>{
-        console.log("send message", data.data.data)
-        set4Messages(data.data.data);
-      }).catch(err=>{
-        console.log(err);
-      })
+      
     }
     this.setState({enter: false})
     }
@@ -48,7 +43,7 @@ class Chat extends React.Component {
       this.setState({recieved: false})
   }
   render() {
-    const { messages, name, picture, socket, getMessages, isChat , set4Messages, setNumOfNewMessages} = this.props;
+    const { messages, name, socket, getMessages, isChat , set4Messages, setNumOfNewMessages} = this.props;
     console.log("abc", messages)
     socket.on("Client-send-message", (data) =>{
       if(this.state.recieved === false){

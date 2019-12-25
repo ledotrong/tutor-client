@@ -14,6 +14,9 @@ export default function messagesData(state = initialState, action) {
         console.log(typeof action,"actionnnn");
         return { data: action.data === undefined? [] : action.data};
       }
+      case types.LOGOUT: {
+        return {data: []};
+      }
     default:
       return state;
   }

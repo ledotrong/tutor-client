@@ -18,7 +18,7 @@ export const types = {
     SET_NUM_OF_NEW_MESSAGES: 'SET_NUM_OF_NEW_MESSAGES'
   };
   
-  export const api_url = 'https://tutorclientapi.herokuapp.com' /*'http://localhost:4000'*/;
+  export const api_url = /*'https://tutorclientapi.herokuapp.com'*/ 'http://localhost:4000';
   
   export const id = {
     GOOGLE_CLIENT_ID:

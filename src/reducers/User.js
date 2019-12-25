@@ -61,7 +61,8 @@ export default function user(state = initialState, action) {
   logintype: null,
   id: null,
   introduction: null,
-  wages : 0
+  wages : 0,
+  newMessages: 0
       };
     }
     case types.UPDATE_INFO: {
